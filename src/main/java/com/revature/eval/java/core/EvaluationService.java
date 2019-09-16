@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
+
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +31,23 @@ public class EvaluationService {
 	 * @param phrase
 	 * @return
 	 */
-	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public String acronym(String phrase) 
+	{ 
+		String[] words = phrase.split(" ");
+		String acro="";
+		for(int i=0;i<words.length;i++)
+		{
+			if(words[i].contains("-"))
+			{
+				acro+=words[i].charAt(0);
+				int j = words[i].indexOf('-')+1;
+				acro+=words[i].charAt(j);
+			}
+			else
+				acro+=words[i].charAt(0);
+			
+		}		
+		return acro.toUpperCase();
 	}
 
 	/**
@@ -83,19 +99,28 @@ public class EvaluationService {
 			this.sideThree = sideThree;
 		}
 
-		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+		public boolean isEquilateral() 
+		{
+			if (sideOne == sideTwo && sideOne == sideThree)
+				return true;
+			else
+				return false;
 		}
 
-		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+		public boolean isIsosceles() 
+		{
+			if(sideOne == sideTwo || sideOne == sideThree)
+				return true;
+			else
+				return false;
 		}
 
-		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+		public boolean isScalene() 
+		{
+			if(sideOne != sideTwo && sideOne != sideThree)
+				return true;
+			else
+				return false;
 		}
 
 	}
@@ -115,11 +140,34 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public int getScrabbleScore(String string) 
+	{
+		int score = 0;
+		String word = string.toLowerCase();
+		
+		for(int i = 0;i<=string.length()-1;i++)
+		{
+			char c = word.charAt(i);
+			if(c == 'a' || c == 'e' ||c == 'i'||c == 'o'||c == 'u'||c == 'l'||c == 'n'||c == 'r'||c == 's'||c == 't')
+				score+=1;
+			if(c == 'd'||c == 'g')
+				score+=2;
+			if(c == 'b'||c == 'c'||c == 'm'||c == 'p')
+				score+=3;
+			if(c == 'f'||c == 'h'||c == 'v'||c == 'w'||c == 'y')
+				score+=4;
+			if (c == 'k')
+				score+=5;
+			if(c == 'j'||c == 'x')
+				score+=8;
+			if(c == 'q'||c == 'z')
+				score+=10;
+		}
+		return score;
 	}
-
+/*
+ * 
+ */
 	/**
 	 * 5. Clean up user-entered phone numbers so that they can be sent SMS messages.
 	 * 
@@ -151,8 +199,9 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
+	public String cleanPhoneNumber(String string) 
+	{
+		
 		return null;
 	}
 
@@ -245,10 +294,41 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public String toPigLatin(String string) 
+	{
+		String[] word = string.split(" ");
+		String plWord = "";
+		int counter = 0;
+		
+		for(int i=0;i<word.length;i++)
+		{
+			char c = string.charAt(i);
+			if(c=='a'|| c=='e' || c=='i' || c=='o'|| c=='u' || c=='y')
+			{
+				plWord += word[i].substring(counter);
+				break;
+			}
+			else if(c!='a'&& c!='e' && c!='i' && c!='o'&& c!='u' && c!='y')
+			{
+				counter++;
+			}
+		}
+		if(counter>0)
+		{
+			plWord += word[counter].substring(counter-counter,counter);
+		}
+		return plWord;
 	}
+//	public static void main(String[] args) {
+//		System.out.println(toPigLatin("quick fast run"));
+//	}
+	/*
+	 *  run a loop to check each index in the string
+	 *  if character is vowel, break loop and adds word based on the counter
+	 *  if not vowel, increment counter
+	 *  counter used for substring-'ing' result word where needed
+	 *  return result word with "ay" since "ay" is always at the end
+	 */
 
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
