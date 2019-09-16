@@ -22,7 +22,7 @@ public class EvaluationService {
 		}
 		return new String(reversed);
 	}
-
+//************************************************************************************Done
 	/**
 	 * 2. Convert a phrase to its acronym. Techies love their TLA (Three Letter
 	 * Acronyms)! Help generate some jargon by writing a program that converts a
@@ -49,7 +49,7 @@ public class EvaluationService {
 		}		
 		return acro.toUpperCase();
 	}
-
+//************************************************************************************Done
 	/**
 	 * 3. Determine if a triangle is equilateral, isosceles, or scalene. An
 	 * equilateral triangle has all three sides the same length. An isosceles
@@ -124,7 +124,7 @@ public class EvaluationService {
 		}
 
 	}
-
+//************************************************************************************Done
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
 	 * 
@@ -165,9 +165,7 @@ public class EvaluationService {
 		}
 		return score;
 	}
-/*
- * 
- */
+//************************************************************************************Done
 	/**
 	 * 5. Clean up user-entered phone numbers so that they can be sent SMS messages.
 	 * 
@@ -201,8 +199,16 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) 
 	{
-		
-		return null;
+		String number = "";
+		for (int i=0;i<=string.length()-1;i++)
+		{
+			char c = string.charAt(i);
+			if (Character.isDigit(c))
+			{
+				number+=c;
+			}
+		}
+		return number;
 	}
 
 	/**
@@ -294,31 +300,37 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public String toPigLatin(String string) 
+	public static String toPigLatin(String string) 
 	{
 		String[] word = string.split(" ");
 		String plWord = "";
 		int counter = 0;
 		
-		for(int i=0;i<word.length;i++)
+		for(int i=0;i<string.length();i++)
 		{
 			char c = string.charAt(i);
-			if(c=='a'|| c=='e' || c=='i' || c=='o'|| c=='u' || c=='y')
-			{
-				plWord += word[i].substring(counter);
-				break;
-			}
-			else if(c!='a'&& c!='e' && c!='i' && c!='o'&& c!='u' && c!='y')
+			
+			
+			if(c!='a'&& c!='e' && c!='i' && c!='o'&& c!='u' && c!='y')
 			{
 				counter++;
 			}
+			else if(c=='a'|| c=='e' || c=='i' || c=='o'|| c=='u' || c=='y')
+			{
+				
+				
+			}
+			
 		}
-		if(counter>0)
-		{
-			plWord += word[counter].substring(counter-counter,counter);
-		}
+//		if(counter>0)
+//		{
+//			plWord += string.substring(counter-counter,counter);
+//		}
 		return plWord;
 	}
+//	public static void main(String[] args) {
+//		System.out.println(toPigLatin("bacon flavored chips"));
+//	}
 //	public static void main(String[] args) {
 //		System.out.println(toPigLatin("quick fast run"));
 //	}
@@ -345,9 +357,23 @@ public class EvaluationService {
 	 * @param input
 	 * @return
 	 */
-	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+	public boolean isArmstrongNumber(int input) 
+	{
+		int arm = 0;
+		String in = Integer.toString(input);
+		
+		for (int i=0;i<in.length();i++)
+		{
+			System.out.println(i);
+			char c = in.charAt(i);
+			int j = Character.getNumericValue(c);
+			arm+= Math.pow(j, in.length());
+		}
+		System.out.println(arm);
+		if(arm == input)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -529,7 +555,7 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		return null;
 	}
-
+//####################################################In Progress
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
 	 * numbers up to but not including that number.
@@ -543,11 +569,42 @@ public class EvaluationService {
 	 * @param set
 	 * @return
 	 */
-	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public static int getSumOfMultiples(int i, int[] set) 
+	{
+		int sum = 0;
+		List<Integer> copy = new ArrayList<>();
+		for(int k=0;k<set.length;k++)
+		{
+			int setNum = set[k];
+			for(int j=1;setNum<i;j++)
+			{
+				if (setNum >=i)
+					break;
+				else if(copy.contains(setNum))
+					continue;
+				
+				else if(setNum%j == 0)
+				{
+					copy.add(j);
+					copy.add(setNum);
+					sum+=setNum;
+				}
+				System.out.println("Sum: " + sum);
+				System.out.println("SetNum: " + setNum);
+				setNum+=set[k];
+				
+			}
+			setNum = -1;
+		}
+		return sum;
 	}
-
+	public static void main(String[] args) 
+	{
+		int[] nums = {5,6,8};
+		getSumOfMultiples(150,nums);
+	}
+//	char c = in.charAt(i);
+//	int j = Character.getNumericValue(c);
 	/**
 	 * 19. Given a number determine whether or not it is valid per the Luhn formula.
 	 * 
