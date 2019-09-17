@@ -1,8 +1,8 @@
 package com.revature.eval.java.core;
 
-
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class EvaluationService {
 		}
 		return new String(reversed);
 	}
-//************************************************************************************Done
+
 	/**
 	 * 2. Convert a phrase to its acronym. Techies love their TLA (Three Letter
 	 * Acronyms)! Help generate some jargon by writing a program that converts a
@@ -59,46 +59,47 @@ public class EvaluationService {
 	 * different lengths.
 	 *
 	 */
-	static class Triangle {
+	static class Triangle 
+	{
 		private double sideOne;
 		private double sideTwo;
 		private double sideThree;
 
-		public Triangle() {
+		public Triangle() 
+		{
 			super();
 		}
-
-		public Triangle(double sideOne, double sideTwo, double sideThree) {
+		public Triangle(double sideOne, double sideTwo, double sideThree) 
+		{
 			this();
 			this.sideOne = sideOne;
 			this.sideTwo = sideTwo;
 			this.sideThree = sideThree;
 		}
-
-		public double getSideOne() {
+		public double getSideOne() 
+		{
 			return sideOne;
 		}
-
-		public void setSideOne(double sideOne) {
+		public void setSideOne(double sideOne) 
+		{
 			this.sideOne = sideOne;
 		}
-
-		public double getSideTwo() {
+		public double getSideTwo() 
+		{
 			return sideTwo;
 		}
-
-		public void setSideTwo(double sideTwo) {
+		public void setSideTwo(double sideTwo) 
+		{
 			this.sideTwo = sideTwo;
 		}
-
-		public double getSideThree() {
+		public double getSideThree() 
+		{
 			return sideThree;
 		}
-
-		public void setSideThree(double sideThree) {
+		public void setSideThree(double sideThree) 
+		{
 			this.sideThree = sideThree;
 		}
-
 		public boolean isEquilateral() 
 		{
 			if (sideOne == sideTwo && sideOne == sideThree)
@@ -106,7 +107,6 @@ public class EvaluationService {
 			else
 				return false;
 		}
-
 		public boolean isIsosceles() 
 		{
 			if(sideOne == sideTwo || sideOne == sideThree)
@@ -114,7 +114,6 @@ public class EvaluationService {
 			else
 				return false;
 		}
-
 		public boolean isScalene() 
 		{
 			if(sideOne != sideTwo && sideOne != sideThree)
@@ -122,9 +121,10 @@ public class EvaluationService {
 			else
 				return false;
 		}
-
 	}
 //************************************************************************************Done
+
+
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
 	 * 
@@ -165,7 +165,7 @@ public class EvaluationService {
 		}
 		return score;
 	}
-//************************************************************************************Done
+	//************************************************************************************Done
 	/**
 	 * 5. Clean up user-entered phone numbers so that they can be sent SMS messages.
 	 * 
@@ -280,9 +280,7 @@ public class EvaluationService {
 		public void setSortedList(List<T> sortedList) {
 			this.sortedList = sortedList;
 		}
-
 	}
-
 	/**
 	 * 8. Implement a program that translates from English to Pig Latin.
 	 * 
@@ -300,48 +298,52 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public static String toPigLatin(String string) 
+	public String toPigLatin(String string) 
 	{
 		String[] word = string.split(" ");
+		String result = "";
+		
+		for(String words : word)
+		{
+			result+=makePL(words) + " ";
+		}
+		return result.trim();
+	}	
+	/**
+	 * @param pl
+	 * @return
+	 */
+	public String makePL(String pl)
+	{
 		String plWord = "";
 		int counter = 0;
-		
-		for(int i=0;i<string.length();i++)
+		for(int i=0;i<pl.length();i++)
 		{
-			char c = string.charAt(i);
+			char c = pl.charAt(i);
+			char u = pl.charAt(i+1);
 			
-			
-			if(c!='a'&& c!='e' && c!='i' && c!='o'&& c!='u' && c!='y')
+			if(c == 'q' && u=='u')
 			{
+				plWord+=c;
+				plWord+=u;
+				counter+=2;
+			}
+			else if(c!='a'&& c!='e' && c!='i' && c!='o'&& c!='u')
+			{
+				plWord+=c;
 				counter++;
 			}
-			else if(c=='a'|| c=='e' || c=='i' || c=='o'|| c=='u' || c=='y')
+			else if(c=='a'|| c=='e' || c=='i' || c=='o'|| c=='u')
 			{
-				
-				
+				plWord = pl.substring(counter) + plWord + "ay";
+				break;
 			}
-			
+			else
+				return null;
 		}
-//		if(counter>0)
-//		{
-//			plWord += string.substring(counter-counter,counter);
-//		}
 		return plWord;
 	}
-//	public static void main(String[] args) {
-//		System.out.println(toPigLatin("bacon flavored chips"));
-//	}
-//	public static void main(String[] args) {
-//		System.out.println(toPigLatin("quick fast run"));
-//	}
-	/*
-	 *  run a loop to check each index in the string
-	 *  if character is vowel, break loop and adds word based on the counter
-	 *  if not vowel, increment counter
-	 *  counter used for substring-'ing' result word where needed
-	 *  return result word with "ay" since "ay" is always at the end
-	 */
-
+//******************************************************************Done
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
 	 * raised to the power of the number of digits.
@@ -364,17 +366,16 @@ public class EvaluationService {
 		
 		for (int i=0;i<in.length();i++)
 		{
-			System.out.println(i);
 			char c = in.charAt(i);
 			int j = Character.getNumericValue(c);
 			arm+= Math.pow(j, in.length());
 		}
-		System.out.println(arm);
 		if(arm == input)
 			return true;
 		else
 			return false;
 	}
+
 
 	/**
 	 * 10. Compute the prime factors of a given natural number.
@@ -555,7 +556,7 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		return null;
 	}
-//####################################################In Progress
+
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
 	 * numbers up to but not including that number.
@@ -569,42 +570,11 @@ public class EvaluationService {
 	 * @param set
 	 * @return
 	 */
-	public static int getSumOfMultiples(int i, int[] set) 
-	{
-		int sum = 0;
-		List<Integer> copy = new ArrayList<>();
-		for(int k=0;k<set.length;k++)
-		{
-			int setNum = set[k];
-			for(int j=1;setNum<i;j++)
-			{
-				if (setNum >=i)
-					break;
-				else if(copy.contains(setNum))
-					continue;
-				
-				else if(setNum%j == 0)
-				{
-					copy.add(j);
-					copy.add(setNum);
-					sum+=setNum;
-				}
-				System.out.println("Sum: " + sum);
-				System.out.println("SetNum: " + setNum);
-				setNum+=set[k];
-				
-			}
-			setNum = -1;
-		}
-		return sum;
+	public int getSumOfMultiples(int i, int[] set) {
+		// TODO Write an implementation for this method declaration
+		return 0;
 	}
-	public static void main(String[] args) 
-	{
-		int[] nums = {5,6,8};
-		getSumOfMultiples(150,nums);
-	}
-//	char c = in.charAt(i);
-//	int j = Character.getNumericValue(c);
+
 	/**
 	 * 19. Given a number determine whether or not it is valid per the Luhn formula.
 	 * 
