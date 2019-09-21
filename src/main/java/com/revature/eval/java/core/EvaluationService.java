@@ -3,10 +3,15 @@ package com.revature.eval.java.core;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public class EvaluationService {
+public class EvaluationService 
+{
+
+	private static final String IllegalArgumentException = null;
 
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
@@ -15,14 +20,16 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public String reverse(String string) {
+	public String reverse(String string) 
+	{
 		char[] reversed = new char[string.length()];
-		for (int i = reversed.length - 1, j=0; i >= 0; i--, j++) {
+		for (int i = reversed.length - 1, j=0; i >= 0; i--, j++) 
+		{
 			reversed[j] = string.charAt(i);
 		}
 		return new String(reversed);
 	}
-
+//************************************************************************************Done
 	/**
 	 * 2. Convert a phrase to its acronym. Techies love their TLA (Three Letter
 	 * Acronyms)! Help generate some jargon by writing a program that converts a
@@ -45,7 +52,6 @@ public class EvaluationService {
 			}
 			else
 				acro+=words[i].charAt(0);
-			
 		}		
 		return acro.toUpperCase();
 	}
@@ -123,8 +129,6 @@ public class EvaluationService {
 		}
 	}
 //************************************************************************************Done
-
-
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
 	 * 
@@ -165,7 +169,7 @@ public class EvaluationService {
 		}
 		return score;
 	}
-	//************************************************************************************Done
+//************************************************************************************Done
 	/**
 	 * 5. Clean up user-entered phone numbers so that they can be sent SMS messages.
 	 * 
@@ -208,9 +212,14 @@ public class EvaluationService {
 				number+=c;
 			}
 		}
-		return number;
+		if (number.length()!= 10 || "abc-!@:".contains(number) )
+		{
+			throw new IllegalArgumentException();
+		}
+		else 
+			return number;
 	}
-
+//##################################################################################In Progress
 	/**
 	 * 6. Given a phrase, count the occurrences of each word in that phrase.
 	 * 
@@ -220,11 +229,13 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public Map<String, Integer> wordCount(String string) 
+	{
+		Map<String,Integer> count = new HashMap<>();
+		
+		return count;
 	}
-
+//##################################################################################In Progress
 	/**
 	 * 7. Implement a binary search algorithm.
 	 * 
@@ -281,6 +292,7 @@ public class EvaluationService {
 			this.sortedList = sortedList;
 		}
 	}
+//******************************************************************Done
 	/**
 	 * 8. Implement a program that translates from English to Pig Latin.
 	 * 
@@ -375,8 +387,7 @@ public class EvaluationService {
 		else
 			return false;
 	}
-
-
+//##################################################################################In Progress
 	/**
 	 * 10. Compute the prime factors of a given natural number.
 	 * 
@@ -387,11 +398,20 @@ public class EvaluationService {
 	 * @param l
 	 * @return
 	 */
-	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public List<Long> calculatePrimeFactorsOf(long l) 
+	{
+		List<Long> primes = new ArrayList<Long>();
+		
+		for(long i=2;i<l;i++)
+		{
+			if(l%i==0)
+			{
+				primes.add(i);
+			}
+		}
+		return primes;
 	}
-
+//##################################################################################In Progress
 	/**
 	 * 11. Create an implementation of the rotational cipher, also sometimes called
 	 * the Caesar cipher.
@@ -418,21 +438,66 @@ public class EvaluationService {
 	 * gur ynml qbt. ROT13 Gur dhvpx oebja sbk whzcf bire gur ynml qbt. gives The
 	 * quick brown fox jumps over the lazy dog.
 	 */
-	static class RotationalCipher {
+	static class RotationalCipher 
+	{
 		private int key;
 
-		public RotationalCipher(int key) {
+		public RotationalCipher(int key) 
+		{
 			super();
 			this.key = key;
 		}
-
-		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+		public String rotate(String string) 
+		{
+			string = "n";
+			String done = "";
+			String smalls = "abcdefghijklmnopqrstuvwxyz"; //26
+			String bigs = "ABCDEFGHIJKLMNOPQRSTUSWXYZ";
+			int k = key;
+			for(int i = 0; i<string.length();i++)
+			{
+				char c= string.charAt(i);
+			
+				if(Character.isLetter(c))
+				{
+					if(c<= 'A' && c>='Z')
+					{
+						for(int j=0;j<=key;i++)
+						{
+							k += j;
+							if(k==26)
+							{
+								k-=26;
+							}
+						}
+						c =bigs.charAt(k);
+						done+=Character.toString(c);
+					}
+					else if(c<= 'a' && c>='z')
+					{
+						for(int j=0;j<=key;i++)
+						{
+							k += j;
+							if(k==26)
+							{
+								k-=26;
+							}
+						}
+						c =smalls.charAt(k);
+						done+=Character.toString(c);
+					}
+				}
+			}
+			System.out.println(done);
+			return done;
 		}
-
 	}
-
+	// while not greater than the cipher int key
+	// increment place in the rotation
+	// when z/Z is reached, make it a/A and continue rotating
+	// check for spaces
+	// char c to search the string
+	// String variable to hold the coded letters
 	/**
 	 * 12. Given a number n, determine what the nth prime is.
 	 * 
@@ -498,7 +563,7 @@ public class EvaluationService {
 			return null;
 		}
 	}
-
+//******************************************************************Done
 	/**
 	 * 15. The ISBN-10 verification process is used to validate book identification
 	 * numbers. These normally contain dashes and look like: 3-598-21508-8
@@ -521,11 +586,37 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
-	}
-
+	public boolean isValidIsbn(String string) 
+	{
+	 ArrayList<Integer> numbers = new ArrayList<Integer>();
+	 int sum=0;
+    
+	   for(int i=0;i<string.length();i++)
+	   {
+		   char c = string.charAt(i);
+		   if(Character.isDigit(c))
+		   {  
+			   int j = Character.getNumericValue(c);
+			   numbers.add(j);
+		   }
+		   else if(c == 'X')
+		   {
+			   numbers.add(10);
+		   }
+	   }
+     int isbn = numbers.size();
+     for(int i=0;i<numbers.size();i++)
+     {
+        
+        sum+=numbers.get(i)*isbn;
+        isbn--;
+     }
+	   if(sum%11==0)
+		   return true;
+	   else
+		   return false;
+   }
+//******************************************************************Done
 	/**
 	 * 16. Determine if a sentence is a pangram. A pangram (Greek: παν γράμμα, pan
 	 * gramma, "every letter") is a sentence using every letter of the alphabet at
@@ -539,9 +630,25 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+	public boolean isPangram(String string) 
+	{
+		HashSet<String> copy = new HashSet<String>();
+		
+		for(int i=0;i<string.length();i++)
+		{
+			char c = string.charAt(i);
+			
+			if(c>='a' && c<= 'z')
+			{
+				copy.add(Character.toString(c));
+				if(copy.contains(string))
+					continue;
+			}
+		}
+		if (copy.size() == 26)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -615,7 +722,7 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		return false;
 	}
-
+//***********************************************************************Done
 	/**
 	 * 20. Parse and evaluate simple math word problems returning the answer as an
 	 * integer.
@@ -643,9 +750,56 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public int solveWordProblem(String string) 
+	{
+		int num1=0,num2=0;
+		int result=0;
+		String word1="";
+		String word2="";
+		String before = string.substring(0,11);
+		String after = string.substring(11);
+		for(int i = 0;i<before.length();i++)
+		{
+			char curr = string.charAt(i);
+			
+			if(Character.isDigit(curr))
+			{
+				char befo = before.charAt(i-1);
+				char aftr = before.charAt(i+1);
+				word1+=Character.toString(befo)+Character.toString(curr);
+				if (Character.isDigit(aftr))
+					word1+=Character.toString(aftr);
+				word1 = word1.trim();
+				num1 = Integer.parseInt(word1);
+				break;
+			}
+		}
+		for(int i = 0;i<after.length();i++)
+		{
+			char curr = after.charAt(i);
+			
+			if(Character.isDigit(curr))
+			{
+				char befo = after.charAt(i-1);
+				char aftr = after.charAt(i+1);
+				word2+=Character.toString(befo)+Character.toString(curr);
+				if (Character.isDigit(aftr))
+					word2+=Character.toString(aftr);
+				word2 = word2.trim();
+				num2 = Integer.parseInt(word2);
+				System.out.println(num2);
+				break;
+			}
+		}
+		if(string.contains("plus"))
+			return result = num1 + num2;
+		else if(string.contains("minus"))
+			return result = num1 - num2;
+		else if(string.contains("multiplied"))
+			return result = num1 * num2;
+		else if(string.contains("divided"))
+			return result = num1 / num2;
+		else return result;
 	}
 
 }
