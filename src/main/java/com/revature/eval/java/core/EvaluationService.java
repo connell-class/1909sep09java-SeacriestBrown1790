@@ -204,6 +204,7 @@ public class EvaluationService
 	public String cleanPhoneNumber(String string) 
 	{
 		String number = "";
+		
 		for (int i=0;i<=string.length()-1;i++)
 		{
 			char c = string.charAt(i);
@@ -212,14 +213,14 @@ public class EvaluationService
 				number+=c;
 			}
 		}
-		if (number.length()!= 10 || "abc-!@:".contains(number) )
+		if (number.length()!= 10 || "abc-!@:".contains(string) )
 		{
 			throw new IllegalArgumentException();
 		}
 		else 
 			return number;
 	}
-//##################################################################################In Progress
+//************************************************************************************Done
 	/**
 	 * 6. Given a phrase, count the occurrences of each word in that phrase.
 	 * 
@@ -232,6 +233,20 @@ public class EvaluationService
 	public Map<String, Integer> wordCount(String string) 
 	{
 		Map<String,Integer> count = new HashMap<>();
+		String word = string.replaceAll(","," ");
+		word = word.replaceAll("\n", "");
+		String[] print = word.split(" ");
+		int counter = 1;
+		for(String s : print)
+		{
+			if(!count.containsKey(s))
+				count.put(s, 1);
+			else
+			{
+				counter++;
+				count.put(s,counter);
+			}
+		}
 		
 		return count;
 	}
@@ -274,7 +289,8 @@ public class EvaluationService
 	static class BinarySearch<T> {
 		private List<T> sortedList;
 
-		public int indexOf(T t) {
+		public int indexOf(T t) 
+		{
 			// TODO Write an implementation for this method declaration
 			return 0;
 		}
@@ -387,7 +403,7 @@ public class EvaluationService
 		else
 			return false;
 	}
-//##################################################################################In Progress
+//******************************************************************Done
 	/**
 	 * 10. Compute the prime factors of a given natural number.
 	 * 
@@ -402,16 +418,17 @@ public class EvaluationService
 	{
 		List<Long> primes = new ArrayList<Long>();
 		
-		for(long i=2;i<l;i++)
+		for(Long i=(long)2;i<=l;i++)
 		{
-			if(l%i==0)
-			{
+			while(l%i==0)
+         {
 				primes.add(i);
-			}
+            l/=i;
+         }
 		}
 		return primes;
 	}
-//##################################################################################In Progress
+//******************************************************************Done
 	/**
 	 * 11. Create an implementation of the rotational cipher, also sometimes called
 	 * the Caesar cipher.
@@ -449,55 +466,47 @@ public class EvaluationService
 		}
 		public String rotate(String string) 
 		{
-			string = "n";
 			String done = "";
-			String smalls = "abcdefghijklmnopqrstuvwxyz"; //26
+			String smalls = "abcdefghijklmnopqrstuvwxyz";
 			String bigs = "ABCDEFGHIJKLMNOPQRSTUSWXYZ";
-			int k = key;
-			for(int i = 0; i<string.length();i++)
+			int k;
+			for(int i=0; i<string.length();i++)
 			{
 				char c= string.charAt(i);
-			
-				if(Character.isLetter(c))
+				int reset = Character.getNumericValue(c)-10;
+				char letter;
+				if(Character.isUpperCase(c))
 				{
-					if(c<= 'A' && c>='Z')
+					k = reset;
+					for(int j=0;j<key;j++)
 					{
-						for(int j=0;j<=key;i++)
+						k++;
+						if(k>=26)
 						{
-							k += j;
-							if(k==26)
-							{
-								k-=26;
-							}
+							k-=26;
 						}
-						c =bigs.charAt(k);
-						done+=Character.toString(c);
 					}
-					else if(c<= 'a' && c>='z')
-					{
-						for(int j=0;j<=key;i++)
-						{
-							k += j;
-							if(k==26)
-							{
-								k-=26;
-							}
-						}
-						c =smalls.charAt(k);
-						done+=Character.toString(c);
-					}
-				}
+					letter=bigs.charAt(k);
+					done+=Character.toString(letter);
+				 }
+				 else if(Character.isLowerCase(c))
+				 {
+					 k = reset;
+					 for(int j=0;j<key;j++)
+					 {
+						 k++;
+						 if(k>=26)
+							 k-=26;
+					 }
+					 letter=smalls.charAt(k);
+					 done+=Character.toString(letter);
+				 }
+               else done+=Character.toString(c);
 			}
-			System.out.println(done);
 			return done;
-		}
+		} 
 	}
-	// while not greater than the cipher int key
-	// increment place in the rotation
-	// when z/Z is reached, make it a/A and continue rotating
-	// check for spaces
-	// char c to search the string
-	// String variable to hold the coded letters
+//******************************************************************Done
 	/**
 	 * 12. Given a number n, determine what the nth prime is.
 	 * 
@@ -510,11 +519,28 @@ public class EvaluationService
 	 * @param i
 	 * @return
 	 */
-	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	public int calculateNthPrime(int i) 
+	{
+		int j;
+		int result = 0;
+		int counter = 1;
+		if(i==0)
+	         throw new IllegalArgumentException();
+		
+		while(result<i)
+		{
+			counter++;
+			for(j=2;j<=counter;j++)
+			{
+				if(counter%j==0)
+					break;
+			}
+			if(j==counter)
+				result++;
+		}
+		return counter;
 	}
-
+//******************************************************************Done
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
 	 * system created in the Middle East.
@@ -539,28 +565,121 @@ public class EvaluationService
 	 * rxpyi ldmul cqfnk hlevi gsvoz abwlt gives thequickbrownfoxjumpsoverthelazydog
 	 *
 	 */
-	static class AtbashCipher {
-
+	static class AtbashCipher 
+	{
 		/**
 		 * Question 13
 		 * 
 		 * @param string
 		 * @return
 		 */
-		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+		public static String encode(String string) 
+		{
+			Map<String,String> cipher = new HashMap<String,String>();
+			
+			cipher.put("a","z");
+			cipher.put("b","y");
+			cipher.put("c","x");
+			cipher.put("d","w");
+			cipher.put("e","v");
+			cipher.put("f","u");
+			cipher.put("g","t");
+			cipher.put("h","s");
+			cipher.put("i","r");
+			cipher.put("j","q");
+			cipher.put("k","p");
+			cipher.put("l","o");
+			cipher.put("m","n");
+			cipher.put("n","m");
+			cipher.put("o","l");
+			cipher.put("p","k");
+			cipher.put("q","j");
+			cipher.put("r","i");
+			cipher.put("s","h");
+			cipher.put("t","g");
+			cipher.put("u","f");
+			cipher.put("v","e");
+			cipher.put("w","d");
+			cipher.put("x","c");
+			cipher.put("y","b");
+			cipher.put("z","a");
+			
+			String code="";
+			int counter = 0;
+			String word = string.toLowerCase();
+         
+			for(int i=0;i<word.length();i++)
+			{
+				char c = word.charAt(i);
+            
+				if(!Character.isLetter(c) &&!Character.isDigit(c))
+					continue;
+				if(counter%5==0)
+					code+=" ";
+				if(Character.isDigit(c))
+					code+=Character.toString(c);
+				else if(Character.isLetter(c))
+				{
+					String change = Character.toString(c);
+					code+=cipher.get(change);
+				}
+				counter++;
+			}
+				return code.trim();
 		}
-
 		/**
 		 * Question 14
 		 * 
 		 * @param string
 		 * @return
 		 */
-		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+		public static String decode(String string) 
+		{
+			Map<String,String> cipher = new HashMap<String,String>();
+			
+			 cipher.put("a","z");
+	         cipher.put("b","y");
+	         cipher.put("c","x");
+	         cipher.put("d","w");
+	         cipher.put("e","v");
+	         cipher.put("f","u");
+	         cipher.put("g","t");
+	         cipher.put("h","s");
+	         cipher.put("i","r");
+	         cipher.put("j","q");
+	         cipher.put("k","p");
+	         cipher.put("l","o");
+	         cipher.put("m","n");
+	         cipher.put("n","m");
+	         cipher.put("o","l");
+	         cipher.put("p","k");
+	         cipher.put("q","j");
+	         cipher.put("r","i");
+	         cipher.put("s","h");
+	         cipher.put("t","g");
+	         cipher.put("u","f");
+	         cipher.put("v","e");
+	         cipher.put("w","d");
+	         cipher.put("x","c");
+	         cipher.put("y","b");
+	         cipher.put("z","a");
+				
+	         String decode="";
+	         String word = string.toLowerCase();
+	         
+	         for(int i=0;i<word.length();i++)
+	         {
+	            char c = word.charAt(i);
+	            
+	            if(Character.isDigit(c))
+	               decode+=Character.toString(c);
+	            else if(Character.isLetter(c))
+	            {
+	               String change = Character.toString(c);
+	               decode+=cipher.get(change);
+	            }
+	         }
+			return decode;
 		}
 	}
 //******************************************************************Done
@@ -650,7 +769,7 @@ public class EvaluationService
 		else
 			return false;
 	}
-
+//##################################################################################In Progress
 	/**
 	 * 17. Calculate the moment when someone has lived for 10^9 seconds.
 	 * 
@@ -663,7 +782,7 @@ public class EvaluationService
 		// TODO Write an implementation for this method declaration
 		return null;
 	}
-
+//***********************************************************************Done
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
 	 * numbers up to but not including that number.
@@ -677,10 +796,26 @@ public class EvaluationService
 	 * @param set
 	 * @return
 	 */
-	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
-	}
+	public int getSumOfMultiples(int i, int[] set) 
+	{
+	      int sum = 0;
+	      Set<Integer> copy = new HashSet<>();
+	      for(int j =0;j<set.length;j++)
+	      {
+	         for(int k=1;k<i;k++)
+	         {
+	            if(k%set[j] == 0)
+	            {
+	               copy.add(k);
+	            }
+	         }
+	      }
+	      for(int num : copy)
+	      {
+	         sum+=num;
+	      }
+		return sum;
+	} 
 
 	/**
 	 * 19. Given a number determine whether or not it is valid per the Luhn formula.
@@ -718,10 +853,41 @@ public class EvaluationService
 	 * @param string
 	 * @return
 	 */
-	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
-	}
+//***********************************************************************Done
+	public boolean isLuhnValid(String string) 
+	{
+		ArrayList<Integer> numbers = new ArrayList<Integer>();
+		int sum=0;
+		
+		for(int i=0;i<string.length();i++)
+		{
+			char c = string.charAt(i);
+			if(Character.isDigit(c))
+				numbers.add(Character.getNumericValue(c));
+			else if (Character.isLetter(c)|| c =='-')
+				return false;
+		}
+
+		int counter = 0;
+    
+		for(int j=numbers.size();j>0;j--)
+		{
+         int k = 0;
+			counter++;
+          if(counter%2==0)
+            k = numbers.get(j) +numbers.get(j);
+         else
+            k = numbers.get(j-1);
+         if(k>9)
+            k-=9;
+         sum+=k; 
+		}
+		if(sum%10 == 0)
+			return true;
+		else
+			return false;
+
+	}  
 //***********************************************************************Done
 	/**
 	 * 20. Parse and evaluate simple math word problems returning the answer as an
@@ -787,7 +953,6 @@ public class EvaluationService
 					word2+=Character.toString(aftr);
 				word2 = word2.trim();
 				num2 = Integer.parseInt(word2);
-				System.out.println(num2);
 				break;
 			}
 		}
