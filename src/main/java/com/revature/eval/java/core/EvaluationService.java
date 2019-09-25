@@ -1,6 +1,12 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalField;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +16,6 @@ import java.util.Set;
 
 public class EvaluationService 
 {
-
 	private static final String IllegalArgumentException = null;
 
 	/**
@@ -250,7 +255,7 @@ public class EvaluationService
 		
 		return count;
 	}
-//##################################################################################In Progress
+//************************************************************************************Done
 	/**
 	 * 7. Implement a binary search algorithm.
 	 * 
@@ -291,8 +296,23 @@ public class EvaluationService
 
 		public int indexOf(T t) 
 		{
-			// TODO Write an implementation for this method declaration
-			return 0;
+			int start=0;
+			int end = sortedList.size()-1;
+			int result = 0;
+			T tee;
+			
+			for(int i=0; i<sortedList.size();i++)
+			{
+				result = (start + end)/2;
+				tee = sortedList.get(result);
+				if(tee.equals(t))
+					break;
+				else if((int)tee<(int)t)
+					start = result + 1;
+				else if((int)tee>(int)t)
+					end = (int)result - 1;
+			}
+			return result;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -769,7 +789,7 @@ public class EvaluationService
 		else
 			return false;
 	}
-//##################################################################################In Progress
+//************************************************************************************Done
 	/**
 	 * 17. Calculate the moment when someone has lived for 10^9 seconds.
 	 * 
@@ -778,9 +798,12 @@ public class EvaluationService
 	 * @param given
 	 * @return
 	 */
-	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public Temporal getGigasecondDate(Temporal given) 
+	{
+		if(given.isSupported(ChronoUnit.HOURS))
+			return given.plus(1000000000,ChronoUnit.SECONDS);
+		else
+			return LocalDate.from(given).atStartOfDay().plusSeconds(1000000000);
 	}
 //***********************************************************************Done
 	/**
